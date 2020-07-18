@@ -1,0 +1,21 @@
+{
+    "page":1,
+    "total_results":10000,
+    "total_pages":500,
+    "results":[
+        {"original_name":"The Simpsons",
+            "genre_ids":[80,18],
+            "name":"The Simpsons",
+            "popularity":168.511,
+            "origin_country":["US"],
+            "vote_count":1380,
+            "first_air_date":"1999-09-20",
+            "backdrop_path":"\/cD9PxbrdWYgL7MUpD9eOYuiSe2P.jpg",
+            "original_language":"en",
+            "id":2734,"vote_average":7.2,
+            "overview":"Theeee simpooons",
+            "poster_path":"\/6t6r1VGQTTQecN4V0sZeqsmdU9g.jpg"
+            
+        }
+    ]
+}
