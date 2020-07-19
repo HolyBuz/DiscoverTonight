@@ -15,20 +15,40 @@ class DiscoverViewControllerSnapshotTests: XCTestCase {
         facade.shouldReturnError = false
     }
     
-    func testProductListViewController_LoadedState() {
-        verifyViewOnAllDevices {
-            let viewController = DiscoverViewController(facade: self.facade, coordinator: DiscoverCoordinator())
-            viewController.viewWillAppear(false)
-            return viewController
-        }
+    func testDiscoverViewController_LoadedState() {
+        let exp = expectation(description: "Get Screenshot")
+
+        let movieList: MovieList = .fromJSON(bundle: Bundle(for: type(of: self)), filename: "MovieListResponse")!
+        facade.mockDiscoverService.movieListResponse = Result.success(movieList)
+        
+        let seriesList: SeriesList = .fromJSON(bundle: Bundle(for: type(of: self)), filename: "SeriesListResponse")!
+        facade.mockDiscoverService.seriesListResponse = Result.success(seriesList)
+        
+        let viewController = DiscoverViewController(facade: facade, coordinator: DiscoverCoordinator())
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2 , execute: {
+            self.verifyViewOnAllDevices {
+                return viewController
+            }
+            exp.fulfill()
+        })
+        
+        waitForExpectations(timeout: 3)
     }
     
-    func testProductListViewController_FailureState() {
-        verifyViewOnAllDevices {
-            self.facade.shouldReturnError = true
-            let viewController = DiscoverViewController(facade: self.facade, coordinator: DiscoverCoordinator())
-            viewController.viewWillAppear(false)
-            return viewController
-        }
+    func testDiscoverViewController_FailureState() {
+        let exp = expectation(description: "Get Screenshot")
+        facade.shouldReturnError = true
+        
+        let viewController = DiscoverViewController(facade: facade, coordinator: DiscoverCoordinator())
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2 , execute: {
+            self.verifyViewOnAllDevices {
+                return viewController
+            }
+            exp.fulfill()
+        })
+        
+        waitForExpectations(timeout: 3)
     }
 }
